@@ -310,14 +310,36 @@ body.m .card.open .means{display:block;animation:fade .35s}
 .adua{text-align:center;color:var(--accent);font-size:16px;margin:12px 0 0}
 #aOk{width:100%;margin-top:14px;border:none;border-radius:14px;padding:8px;font-size:16.5px;background:var(--accent2);color:var(--on2)}
 
-/* ================= تلميح التثبيت ================= */
-#install{display:none;align-items:center;gap:10px;margin:0 0 16px;padding:10px 14px;border:1px dashed var(--line);border-radius:18px;
-  background:var(--card);font-size:14px;color:var(--muted);line-height:1.7;animation:fade .6s .3s both}
+/* ================= زر الإضافة للشاشة الرئيسية ================= */
+#install{display:none;align-items:center;gap:4px;margin:0 0 16px;padding:6px 6px 6px 8px;border:1px solid var(--line);border-radius:22px;
+  background:var(--card);box-shadow:0 4px 16px rgba(120,90,40,.06);animation:fade .6s .3s both}
 #install.on{display:flex}
-#install .itx{flex:1}
-#install b{color:var(--ink)}
-#install .ib{border:none;background:var(--accent2);color:var(--on2);border-radius:999px;padding:3px 14px;font-size:14px;flex:none}
-#install .ix{border:none;background:none;color:var(--muted);font-size:15px;padding:2px 6px;flex:none}
+.ibtn{flex:1;display:flex;align-items:center;gap:12px;border:none;background:none;text-align:right;padding:6px 8px;border-radius:16px;transition:transform .15s}
+.ibtn:active{transform:scale(.98)}
+.iic{width:42px;height:42px;border-radius:13px;background:var(--accent2);display:grid;place-items:center;flex:none}
+.iic svg{width:22px;height:22px;stroke:var(--on2);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.itx b{display:block;font-size:17px;line-height:1.5}
+.itx small{display:block;font-size:13px;color:var(--muted);line-height:1.5}
+#install .ix{border:none;background:none;color:var(--muted);font-size:15px;padding:6px 10px;flex:none;align-self:flex-start}
+
+/* دليل الإضافة */
+#guide{position:fixed;inset:0;z-index:60;display:none}
+#guide.on{display:block}
+#guide h4{text-align:center;font-size:21px;margin:0 0 2px}
+.gwhere{text-align:center;color:var(--muted);font-size:14.5px;margin:0 0 10px}
+.gsteps{list-style:none;margin:0;padding:0;counter-reset:g}
+.gsteps li{counter-increment:g;display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.8}
+.gsteps li:last-child{border:none}
+.gsteps li::before{content:counter(g, arabic-indic);width:28px;height:28px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:14px;
+  color:var(--accent2);background:var(--soft);border:1px solid var(--line)}
+.gsteps .gt{flex:1}
+.gico{width:38px;height:38px;flex:none;border-radius:11px;background:var(--soft);border:1px solid var(--line);display:grid;place-items:center}
+.gico svg{width:21px;height:21px;stroke:#3b82f6;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gico svg.fill{fill:#3b82f6;stroke:none}
+.gsteps b{color:var(--ink)}
+.gnote{margin:10px 0 0;padding:8px 14px;border-radius:14px;background:var(--soft);font-size:13.5px;color:var(--muted);text-align:center;line-height:1.8}
+.gnote:empty{display:none}
+#gOk{width:100%;margin-top:14px;border:none;border-radius:14px;padding:8px;font-size:16.5px;background:var(--accent2);color:var(--on2)}
 </style>
 </head>
 <body class="m">
@@ -348,8 +370,10 @@ body.m .card.open .means{display:block;animation:fade .35s}
   </div>
   <p class="hnote">تتصفّر العدّادات تلقائياً الساعة ١٢ منتصف الليل</p>
   <div id="install">
-    <span class="itx"></span>
-    <button class="ib" id="installBtn" style="display:none">تثبيت</button>
+    <button class="ibtn" id="installBtn">
+      <span class="iic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span>
+      <span class="itx"><b>أضف للشاشة الرئيسية</b><small>ليعمل كتطبيق، حتى بدون إنترنت</small></span>
+    </button>
     <button class="ix" id="installX" aria-label="إخفاء">✕</button>
   </div>
   <button class="sebtn" id="toSebha">
@@ -448,6 +472,19 @@ body.m .card.open .means{display:block;animation:fade .35s}
       <input id="fnum" inputmode="numeric" placeholder="عدد آخر" autocomplete="off">
     </div>
     <div class="facts"><button class="save" id="fSave">حفظ</button><button id="fCancel">إلغاء</button></div>
+  </div>
+</div>
+
+<!-- ========== دليل الإضافة للشاشة الرئيسية ========== -->
+<div id="guide">
+  <div class="fback"></div>
+  <div class="fsheet" role="dialog" aria-label="طريقة الإضافة للشاشة الرئيسية">
+    <div class="aorn">✦ ✦ ✦</div>
+    <h4>أضف «الأذكار» للشاشة الرئيسية</h4>
+    <p class="gwhere" id="gwhere"></p>
+    <ol class="gsteps" id="gsteps"></ol>
+    <p class="gnote" id="gnote"></p>
+    <button id="gOk">حسناً</button>
   </div>
 </div>
 
@@ -1351,34 +1388,69 @@ var SEBHA_DEFAULT = [
   route();
 })();
 
-/* ===== تطبيق على الشاشة الرئيسية: العمل بدون إنترنت + تلميح التثبيت ===== */
+/* ===== تطبيق على الشاشة الرئيسية: العمل بدون إنترنت + زر الإضافة ===== */
 (function(){
+  var $ = function(id){ return document.getElementById(id); };
   var web = /^https?:$/.test(location.protocol);
   if (web && 'serviceWorker' in navigator) {
     window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
   }
-  var box = document.getElementById('install'), txt = box.querySelector('.itx'), btn = document.getElementById('installBtn');
+  var box = $('install');
   var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
   var hidden = false; try{ hidden = localStorage.getItem('adhkar-install-hidden') === '1'; }catch(e){}
-  if (!web || standalone || hidden) return;
-  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (ios) {
-    txt.innerHTML = 'لتثبيته كتطبيق يعمل بدون إنترنت: اضغط زر المشاركة <b>⬆︎</b> ثم <b>«إضافة إلى الشاشة الرئيسية»</b>';
-    box.classList.add('on');
-  }
+  var ua = navigator.userAgent;
+  var ipad = /ipad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var ios = ipad || /iphone|ipod/i.test(ua);
+  var android = /android/i.test(ua);
   var deferred = null;
-  window.addEventListener('beforeinstallprompt', function(e){
-    e.preventDefault(); deferred = e;
-    txt.textContent = 'ثبّته كتطبيق على هاتفك ليعمل بدون إنترنت';
-    btn.style.display = ''; box.classList.add('on');
-  });
-  btn.onclick = function(){
-    if (!deferred) return;
-    deferred.prompt();
-    deferred.userChoice.then(function(){ deferred = null; box.classList.remove('on'); });
-  };
+  function show(){ if (web && !standalone && !hidden) box.classList.add('on'); }
+  if (ios || android) show();
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; show(); });
   window.addEventListener('appinstalled', function(){ box.classList.remove('on'); });
-  document.getElementById('installX').onclick = function(){
+
+  /* أيقونات الخطوات */
+  var I = {
+    share: '<svg viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8"/></svg>',
+    dots:  '<svg class="fill" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></svg>',
+    vdots: '<svg class="fill" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="12" cy="19" r="2.2"/></svg>',
+    plus:  '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg>',
+    ok:    '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+  };
+  function step(icon, text){ return '<li><span class="gt">' + text + '</span><span class="gico">' + I[icon] + '</span></li>'; }
+  function openGuide(){
+    var where = '', steps = '', note = '';
+    if (ios) {
+      where = ipad ? 'أزرار Safari في أعلى الشاشة' : 'أزرار Safari في أسفل الشاشة';
+      steps = step('share', 'اضغط زر <b>المشاركة</b>. وإن لم تجده، فاضغط <b>⋯</b> أولاً ثم <b>«مشاركة»</b>.') +
+              step('plus',  'انزل قليلاً في القائمة، واختر <b>«إضافة إلى الشاشة الرئيسية»</b>.') +
+              step('ok',    'اضغط <b>«إضافة»</b>، فتظهر أيقونة «الأذكار» بين تطبيقاتك.');
+      note = 'إن فتحت الرابط من داخل تطبيق آخر كالواتساب، فافتحه أولاً في Safari.';
+    } else {
+      where = 'من قائمة المتصفح';
+      steps = step('vdots', 'اضغط قائمة المتصفح <b>⋮</b> في أعلى الشاشة.') +
+              step('plus',  'اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>.') +
+              step('ok',    'اضغط <b>«تثبيت»</b>، فتظهر أيقونة «الأذكار» بين تطبيقاتك.');
+      note = 'في متصفح سامسونج: القائمة ☰ ثم «إضافة صفحة إلى» ثم «الشاشة الرئيسية».';
+    }
+    $('gwhere').textContent = where;
+    $('gsteps').innerHTML = steps;
+    $('gnote').textContent = note;
+    $('guide').classList.add('on');
+  }
+  function closeGuide(){ $('guide').classList.remove('on'); }
+  $('gOk').onclick = closeGuide;
+  $('guide').querySelector('.fback').onclick = closeGuide;
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeGuide(); });
+
+  $('installBtn').onclick = function(){
+    if (deferred) {
+      deferred.prompt();
+      deferred.userChoice.then(function(c){ deferred = null; if (c && c.outcome === 'accepted') box.classList.remove('on'); });
+      return;
+    }
+    openGuide();
+  };
+  $('installX').onclick = function(){
     box.classList.remove('on');
     try{ localStorage.setItem('adhkar-install-hidden', '1'); }catch(e){}
   };
